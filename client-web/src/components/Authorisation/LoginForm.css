@@ -1,0 +1,83 @@
+.login-form{
+    background-color: white;
+    height: fit-content;
+    width: fit-content;
+    min-width: 504px;
+    min-height: 519px;
+    align-self: center;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.login-form .close-icon{
+    width: 15px;
+    height: 15px;
+    margin: 23px 3% 23px 92%;
+}
+.login-form .login-container{
+    width: 400px;
+    padding: 0 52px 0 52px;
+}
+
+.login-container .form-title{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 43px;
+    margin-bottom: 30px;
+}
+
+.login-container .form-input{
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    margin-bottom: 25px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+}
+.login-container .enter-button{
+    width: 100%;
+    height: 64px;
+    background: #FB4D3D;
+    border: 1px solid #FB4D3D;
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: white;
+}
+.login-container .forget-password{
+    width: 100%;
+    margin: 10px 0 50px 0;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 600;
+}
+.login-container .footer-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.login-container .footer-container .register-proposal{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+}
+.login-container .footer-container .link-to-register{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+}

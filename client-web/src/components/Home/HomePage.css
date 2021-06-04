@@ -1,0 +1,5 @@
+.home-catalog {
+    background-color: #FFFFFF;
+    height: -webkit-fill-available;
+    display: flex;
+}

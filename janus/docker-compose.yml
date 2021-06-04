@@ -1,0 +1,19 @@
+version: '2.1'
+services:
+  #
+  # janus-gateway
+  #
+  janus-gateway:
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    ports:
+      - "8188:8188"
+      - "8088:8088"
+    volumes:
+      - "./janus.jcfg:/usr/local/etc/janus/janus.jcfg"
+      - "./janus.plugin.videoroom.jcfg:/usr/local/etc/janus/janus.plugin.videoroom.jcfg"
+    restart: always
+  #
+  # etherpad
+  # etherpad:
+  #  image: 'etherpad/etherpad'

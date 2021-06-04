@@ -1,0 +1,35 @@
+.chat-container{
+    max-width: 400px;
+    min-width: 400px;
+}
+
+.chat-textarea{
+    width: 300px
+}
+.chat-send{
+    width: 90px
+}
+
+/* MESSAGE */
+
+.message-box{
+    padding: 5px 5px 5px 5px;
+    border: 1px solid black;
+    margin: 2px 2px 2px 2px;
+    display: flex;
+    flex-direction: column;
+}
+.message-header{
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.message-nick{
+    font-size: 14px;
+    color: #FB4D3D;
+}
+.message-time{
+    font-size: 14px
+}
+.message-value{
+}

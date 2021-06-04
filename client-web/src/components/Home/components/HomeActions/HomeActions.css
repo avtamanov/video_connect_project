@@ -1,0 +1,26 @@
+.home-actions-container{
+    width: 80%;
+    margin: 20px 10% 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.action-link{
+    width: 15%;
+    height: auto;
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+}
+
+.action-link .home-action-item{
+    width: 100%;
+}
+.home-action-item .action-icon{
+    width: 100%;
+    color: #FB4D3D;
+}
+.action-title{
+    text-align: center;
+}
