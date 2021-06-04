@@ -1,5 +1,5 @@
 import './HomeActions.css';
-import plusIcon from './../../../../content/icons/actions/plus_square_icon.png';
+import plusIcon from '../../../icons/plus_square_icon.png';
 import {Link} from "react-router-dom";
 
 const HomeActions = ({routes}) => {

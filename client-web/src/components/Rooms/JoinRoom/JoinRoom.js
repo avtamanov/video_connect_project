@@ -1,7 +1,7 @@
 import './JoinRoom.css';
 import React, {useEffect, useRef, useState} from "react";
-import HomeHeader from "../../Home/components/HomeHeader/HomeHeader";
-import HomeFooter from "../../Home/components/HomeFooter/HomeFooter";
+import HomeHeader from "../../Home/HomeHeader/HomeHeader";
+import HomeFooter from "../../Home/HomeFooter/HomeFooter";
 import Janus from "janus-gateway-js";
 import VideoComponent from "../components/VideoComponent/VideoComponent";
 import ChatContainer from "../components/ChatContainer/ChatContainer";

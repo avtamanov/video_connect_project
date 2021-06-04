@@ -1,8 +1,8 @@
 import './CreateRoom.css';
-import HomeHeader from "../../Home/components/HomeHeader/HomeHeader";
+import HomeHeader from "../../Home/HomeHeader/HomeHeader";
 import React, {useEffect, useRef, useState} from "react";
-import HomeFooter from "../../Home/components/HomeFooter/HomeFooter";
-import '../../../janus_api/videoroomPlugin';
+import HomeFooter from "../../Home/HomeFooter/HomeFooter";
+import '../../../videoroomPlugin';
 import axios from "axios";
 import Janus from "janus-gateway-js";
 

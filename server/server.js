@@ -9,9 +9,9 @@ const axios = require('axios');
 const express = require('express');
 const http = require('http');
 const app = express();
-const authServer = http.createServer(app);
+const server = http.createServer(app);
 const socket = require('socket.io');
-const io = socket(authServer, {
+const io = socket(server, {
     cors: {
         origin: 'http://localhost:3000',
         methods: ["GET", "POST"]
@@ -515,4 +515,4 @@ app.post(clientRoutes.janusCreateRoom, (req, res) => {
 
 });
 
-authServer.listen(SERVER_PORT, () => console.log(`server running on port ${SERVER_PORT}`))
+server.listen(SERVER_PORT, () => console.log(`server running on port ${SERVER_PORT}`))

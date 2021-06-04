@@ -1,7 +1,7 @@
 import './RegisterForm.css';
 import './AuthForm.css';
 import {useEffect, useState} from "react";
-import iconClose from "../../content/icons/close.svg";
+import iconClose from "../../icons/close.svg";
 import {TextField} from "@material-ui/core";
 
 const RegisterForm = ({active, setActive, authMethod, setShowLogin}) => {

@@ -5,7 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import {BreakpointProvider} from "react-socks";
 import {CustomRouter} from "./router";
 import * as serviceWorker from './serviceWorker';
-import './content/fonts/fonts.css'
 
 ReactDOM.render(
     <BreakpointProvider>

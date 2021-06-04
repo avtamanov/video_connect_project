@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import HomePage from "./components/Home/HomePage";
 import CreateRoom from "./components/Rooms/CreateRoom/CreateRoom";
 import LoginForm from "./components/Authorisation/LoginForm";
 import RegisterForm from "./components/Authorisation/RegisterForm";
@@ -9,9 +8,10 @@ import axios from "axios";
 import Cookie from 'js-cookie';
 import { createDecoder }from 'fast-jwt';
 import TestRoom from "./components/Rooms/TestRoom/TestRoom";
-import HomeHeader from "./components/Home/components/HomeHeader/HomeHeader";
-import HomeFooter from "./components/Home/components/HomeFooter/HomeFooter";
+import HomeHeader from "./components/Home/HomeHeader/HomeHeader";
+import HomeFooter from "./components/Home/HomeFooter/HomeFooter";
 import Profile from "./components/Profile/Profile";
+import HomeActions from "./components/Home/HomeActions/HomeActions";
 
 export const CustomRouter = () => {
     const decoder = createDecoder();
@@ -160,7 +160,9 @@ export const CustomRouter = () => {
                     <HomeFooter/>
                 </Route>
                 <Route exact path={routes.home}>
-                    <HomePage routes={routes} login={userInfo.nickname} authApi={AuthAPI}/>
+                    <HomeHeader routes={routes} login={userInfo.nickname} authApi={AuthAPI}/>
+                    <HomeActions routes={routes}/>
+                    <HomeFooter/>
                 </Route>
             </Switch>
             {showLogin && <LoginForm active={showLogin}

@@ -1,6 +1,5 @@
 import './LoginForm.css';
-import './AuthForm.css';
-import iconClose from './../../content/icons/close.svg';
+import iconClose from '../../icons/close.svg';
 import {TextField} from "@material-ui/core";
 import {useEffect, useState} from "react";
 

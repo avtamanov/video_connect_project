@@ -3,9 +3,9 @@ import * as cookie from "react-cookies";
 
 import {Link} from "react-router-dom";
 import "./HomeHeader.css"
-import search from "../../../../content/icons/search.svg";
-import profile from "../../../../content/icons/profile.svg";
-import logo from "../../../../content/icons/logo_main.png"
+import search from "../../../icons/search.svg";
+import profile from "../../../icons/profile.svg";
+import logo from "../../../icons/logo_main.png"
 
 const HomeHeaderSearch = ()=> {
     return <div>

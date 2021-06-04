@@ -86,7 +86,6 @@ const OtherPublisherContainer = ({user, session, room}) => {
                 data: null,
                 volume: 1
             });
-
             session.attachPlugin('janus.plugin.videoroom')
                 .then(plugin => {
                     videoPlugin.current = plugin;
