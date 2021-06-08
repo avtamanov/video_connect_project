@@ -1,0 +1,28 @@
+.publisher-component{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.video-user{
+    width: 320px;
+    height: 240px
+}
+
+.video-user-buttons{
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-button{
+    width:50%;
+    background-color: #FB4D3D;
+    color: #000000;
+    border: 1px solid #000000;
+    text-align: center;
+    font-size: 14px;
+    line-height: 17px;
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+}

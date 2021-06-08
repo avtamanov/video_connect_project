@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
+import './PublishersContainer.css';
 
 const PublishersContainer = ({publishers, session, roomID}) => {
 
@@ -12,6 +13,8 @@ const PublishersContainer = ({publishers, session, roomID}) => {
 
 const PublisherVideo = ({publisher, session, roomID}) => {
 
+    const [isPublished, setIsPublished] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
     const [user, setUser] = useState({
         nickname: publisher.display,
         id: publisher.id,
@@ -26,6 +29,7 @@ const PublisherVideo = ({publisher, session, roomID}) => {
 
     const getMedia = ()=>{
         console.log('publisher video session', session);
+        setIsPublished(true);
         if(session && roomID){
             session.attachPlugin('janus.plugin.videoroom').then((plugin) => {
                 function onRoomAsSubJoin(response) {
@@ -112,6 +116,15 @@ const PublisherVideo = ({publisher, session, roomID}) => {
         }
     }
 
+    const deleteMedia = () => {
+        ref.current.srcObject = null;
+        setIsPublished(false);
+    }
+
+    const onMute = () => {
+        setIsMuted(!isMuted);
+    }
+
     const ref = useRef(null);
 
     useEffect(() => {
@@ -130,16 +143,15 @@ const PublisherVideo = ({publisher, session, roomID}) => {
     }, [user.streaming, user.volume, user.stream]);
 
 
-    return <div>
-        <div>
-            <p>{publisher.display || publisher.id}</p>
-            <button onClick={getMedia}>getMedia</button>
+    return <div className='publisher-component'>
+        <div className='nickname-user'>{publisher.display || publisher.id}</div>
+        <video className={'video-user ' + publisher.id} ref={ref}/>
+        <div className={'video-user-buttons ' + publisher.id}>
+            {isPublished && <div className='user-button' onClick={deleteMedia}>Unpublish Media</div>}
+            {!isPublished && <div className='user-button' onClick={getMedia}>Publish Media</div>}
+            {isMuted && <div className='user-button' onClick={onMute}>Unmute</div>}
+            {!isMuted && <div className='user-button' onClick={onMute}>Mute</div>}
         </div>
-        <video className={'video-user-'+publisher.id} ref={ref}/>
-        {/*<button onClick={()=>{
-            let videoElement = document.getElementsByClassName('video-user-'+publisher.id)[0];
-            console.log(videoElement.srcObject);
-        }}>media?</button>*/}
     </div>
 }
 

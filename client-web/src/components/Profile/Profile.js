@@ -86,55 +86,64 @@ const Profile = ({sRoutes, token, userInfo}) => {
         return passBegin + passEndHidden;
     }
 
-    return <div>
+    return <div className='profile-container'>
         {!userInfo.email && <div>Return to Home page or login.</div>}
         {userInfo.email && <div className='profile-container'>
-            <p>Profile</p>
-            <p>-------</p>
+            <p className='profile-header'>Profile</p>
             {userData && <div>
-                <div>
-                    <p>Your nickname: {userData.nickname}</p>
-                    {!showChangeNick && <button onClick={() => {
+                <div className='profile-subcontainer'>
+                    <p className='profile-text'>Your nickname: {userData.nickname}</p>
+                    {!showChangeNick && <button className='profile-button-cancel' onClick={() => {
                         setShowChangeNick(true)
                     }}>Change nickname</button>}
-                    {showChangeNick && <div>
-                        <button onClick={() => {
+                    {showChangeNick && <div className='profile-subcontainer'>
+                        <button className='profile-button-cancel' onClick={() => {
                             setShowChangeNick(false)
                         }}>Cancel
                         </button>
-                        <input value={changeNick}
+                        <input className='profile-input'
+                               value={changeNick}
                                onChange={(e) => {
                                    setChangeNick(e.target.value)
                                }}
                                placeholder='Enter new nickname...'/>
-                        <button onClick={onChangeNickname}>Send request</button>
+                        <button className='profile-button-submit' onClick={onChangeNickname}>Send request</button>
                     </div>}
                 </div>
-                <p>Your email: {userData.email}</p>
-                <div>
-                    <p>Your password: {passwordShow(userData.password)}</p>
-                    {!showChangePass && <button onClick={() => {
+                <p className='profile-text'>Your email: {userData.email}</p>
+                <div className='profile-subcontainer'>
+                    <p className='profile-text'>Your password: {passwordShow(userData.password)}</p>
+                    {!showChangePass && <button className='profile-button-cancel' onClick={() => {
                         setShowChangePass(true)
                     }}>Change password</button>}
-                    {showChangePass && <div>
-                        <button onClick={() => {
-                            setShowChangePass(false)
-                        }}>Cancel
-                        </button>
-                        <input value={changePass}
-                               onChange={(e) => {
-                                   setChangePass(e.target.value)
-                               }}
-                               placeholder='Enter new password...'/>
-                        <input value={changePassRepeat}
-                               onChange={(e) => {
-                                   setChangePassRepeat(e.target.value)
-                               }}
-                               placeholder='Repeat new password...'/>
-                        <button onClick={onChangePassword}>Send request</button>
+                    {showChangePass && <button className='profile-button-cancel' onClick={() => {
+                        setShowChangePass(false)
+                    }}>Cancel</button>}
+                    {showChangePass && <div className='profile-subcontainer'>
+                        <div>
+                            <div>
+                                <input className='profile-input'
+                                       value={changePass}
+                                       onChange={(e) => {
+                                           setChangePass(e.target.value)
+                                       }}
+                                       placeholder='Enter new password...'/>
+                            </div>
+                            <div>
+                                <input className='profile-input'
+                                       value={changePassRepeat}
+                                       onChange={(e) => {
+                                           setChangePassRepeat(e.target.value)
+                                       }}
+                                       placeholder='Repeat new password...'/>
+                            </div>
+                        </div>
+                        <div>
+                            <button className='profile-button-submit' onClick={onChangePassword}>Send request</button>
+                        </div>
                     </div>}
                 </div>
-                <p>Your rules: {userData.rules}</p>
+                <p className='profile-text'>Your rules: {userData.rules}</p>
             </div>}
         </div>}
 

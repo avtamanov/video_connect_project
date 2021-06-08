@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './RoomJoined.css';
 import VideoComponent from "../VideoComponent/VideoComponent";
 import ChatContainer from "../ChatContainer/ChatContainer";
@@ -19,38 +19,56 @@ const RoomJoined = ({userInfo,
                         leaveRoom,
                         socket,
                         socketUsers,
-                        publishers}) => {
+                        publishers,
+                        routes}) => {
+
+    useEffect(()=>{
+        console.log(room.interactive);
+        if(room.interactive){
+            setBoard(room.interactive.includes('board'));
+            setChat(room.interactive.includes('chat'));
+            setDoc(room.interactive.includes('doc'));
+            setVideo(room.interactive.includes('video'));
+        }
+    }, []);
+
+    const [allowedBoard, setBoard] = useState(true);
+    const [allowedChat, setChat] = useState(true);
+    const [allowedDoc, setDoc] = useState(true);
+    const [allowedVideo, setVideo] = useState(true);
+
+    const leaveRoomBind = leaveRoom.bind(null, room, plugin)
 
     return <div className='room-joined'>
         <div className='left-panel'>
             <div className='room-header'>
                 <p>You joined to Room with ID:{room.roomid}</p>
                 <p>Your video-server ID: {userID}</p>
-                <button onClick={leaveRoom}>Leave Room</button>
+                <button onClick={leaveRoomBind}>Leave Room</button>
             </div>
-            <VideoComponent userId={userID}
-                            userInfo={userInfo}
-                            stream={userStream}
-                            muted={false}
-                            streaming={true}
-                            publishMedia={publishMedia}
-                            unpublishMedia={unpublishMedia}
-            />
-
-            <PublishersContainer publishers={publishers}
-                                 roomID={room.roomid}
-                                 session={session}/>
+            {allowedVideo && <VideoComponent userId={userID}
+                             userInfo={userInfo}
+                             stream={userStream}
+                             muted={false}
+                             streaming={true}
+                             publishMedia={publishMedia}
+                             unpublishMedia={unpublishMedia}
+            />}
+            {allowedVideo && <PublishersContainer publishers={publishers}
+                                  roomID={room.roomid}
+                                  session={session}/>}
         </div>
         <div className='right-panel'>
 
-            <BoardContainer socket={socket}
-                            room={room}
-                            nickname={userInfo.nickname}/>
-            {/*<DocumentContainer/>*/}
+            {allowedBoard && <BoardContainer socket={socket}
+                             room={room}
+                             nickname={userInfo.nickname}/>}
+            {allowedDoc && <DocumentContainer room={room}
+                                routes={routes}/>}
             <div className='lower-panel'>
-                <ChatContainer socket={socket}
-                               room={room}
-                               nickname={userInfo.nickname}/>
+                {allowedChat && <ChatContainer socket={socket}
+                                room={room}
+                                nickname={userInfo.nickname}/>}
                 <UsersList users={socketUsers}/>
             </div>
 

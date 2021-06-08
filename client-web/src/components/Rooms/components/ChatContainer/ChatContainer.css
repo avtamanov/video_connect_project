@@ -33,3 +33,18 @@
 }
 .message-value{
 }
+
+.messages-container{
+    max-height: 250px;
+    overflow-x: auto;
+}
+
+.messages-container::-webkit-scrollbar{
+    border-radius: 2px;
+    width: 4px;
+    background-color: #FFFFFF;
+}
+.messages-container::-webkit-scrollbar-thumb{
+    background-color: #444;
+    border-radius: 2px;
+}

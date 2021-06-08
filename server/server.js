@@ -13,7 +13,7 @@ const server = http.createServer(app);
 const socket = require('socket.io');
 const io = socket(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost',
         methods: ["GET", "POST"]
     }
 });
@@ -111,7 +111,7 @@ db.on('connect', (err) => {
             rooms[0].users = null;
             rooms[0].save(err =>{})*/
         });
-        /*RoomTable.find({ roomid: 123 }).remove(function (err) {
+        /*RoomTable.find({ description: 'pin room' }).remove(function (err) {
             if (err) throw err;
         });*/
     });

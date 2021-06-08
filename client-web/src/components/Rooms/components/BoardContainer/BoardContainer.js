@@ -3,6 +3,8 @@ import './BoardContainer.css';
 
 const BoardContainer = ({socket, room, nickname}) => {
 
+    const [showBoard, setShowBoard] = useState(true);
+    const [curImage, setCurImage] = useState(null);
     const WIDTH = 480;
     const HEIGHT = 320;
     const [color, setColor] = useState('#000000');
@@ -22,15 +24,28 @@ const BoardContainer = ({socket, room, nickname}) => {
         })
     }
 
+    const unwrapBoard = () => {
+        if(showBoard) {
+            setShowBoard(false);
+        } else {
+            setShowBoard(true);
+        }
+    }
+
     return <div className='board-container'>
-        <div className='tools-container'>
+        <p onClick={unwrapBoard}>Board: {showBoard ? 'hide' : 'show'}</p>
+        {showBoard && <div className='tools-container'>
             <div className='color-picker-container'>
                 <p>Color select:</p>
-                <input type='color' value={color} onChange={(e)=>{setColor(e.target.value)}}/>
+                <input type='color' value={color} onChange={(e) => {
+                    setColor(e.target.value)
+                }}/>
             </div>
             <div className='brush-picker-container'>
                 <p>Brush size:</p>
-                <select onChange={(e)=>{setBrushSize(e.target.value)}}>
+                <select onChange={(e) => {
+                    setBrushSize(e.target.value)
+                }}>
                     <option>5</option>
                     <option>10</option>
                     <option>15</option>
@@ -42,16 +57,19 @@ const BoardContainer = ({socket, room, nickname}) => {
             <div>
                 <button onClick={cleanBoard}>Clean Board</button>
             </div>
-        </div>
-        <Board socket={socket}
-               room={room}
-               nickname={nickname}
-               brushSize={brushSize}
-               color={color}/>
+        </div>}
+        {showBoard && <Board socket={socket}
+                             room={room}
+                             nickname={nickname}
+                             brushSize={brushSize}
+                             color={color}
+                             curImage={curImage} setCurImage={setCurImage}
+                             isShown={showBoard}
+        />}
     </div>
 }
 
-const Board = ({socket, room, nickname, color, brushSize}) => {
+const Board = ({socket, room, nickname, color, brushSize, curImage, setCurImage, isShown}) => {
 
     const SEND_DELAY = 500;
     const drawTimeout = useRef(null);
@@ -110,6 +128,7 @@ const Board = ({socket, room, nickname, color, brushSize}) => {
                     roomid: room.roomid,
                     drawing: {value: base64ImageData, nickname: nickname}
                 })
+                setCurImage(base64ImageData);
             }, SEND_DELAY);
         };
 
@@ -133,6 +152,18 @@ const Board = ({socket, room, nickname, color, brushSize}) => {
             ctx.strokeStyle = color;
         }
     },[color, brushSize])
+
+    useEffect(()=>{
+        const canvas = document.getElementsByClassName('board-canvas')[0];
+        const ctx = canvas.getContext('2d');
+        if(ctx && curImage) {
+            const image = new Image();
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0);
+            };
+            image.src = curImage;
+        }
+    }, [isShown])
 
     /*const mainDrawFunc = () => {
 

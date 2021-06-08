@@ -1,0 +1,19 @@
+.join-pad{
+    display: flex;
+    align-items: center;
+}
+
+.room-item{
+    padding: 5px 5px 5px 5px;
+    border: 1px solid black;
+    margin: 2px 2px 2px 2px
+}
+
+.pin-field{
+    width: 100px
+}
+
+.pin-error{
+    margin: 0 0 0 10px;
+    color: red;
+}

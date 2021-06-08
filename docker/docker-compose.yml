@@ -13,7 +13,9 @@ services:
       - "./janus.jcfg:/usr/local/etc/janus/janus.jcfg"
       - "./janus.plugin.videoroom.jcfg:/usr/local/etc/janus/janus.plugin.videoroom.jcfg"
     restart: always
-  #
+
   # etherpad
-  # etherpad:
-  #  image: 'etherpad/etherpad'
+  etherpad:
+   image: 'etherpad/etherpad'
+   ports:
+     - "9001:9001"

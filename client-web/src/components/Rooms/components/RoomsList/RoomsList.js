@@ -1,20 +1,40 @@
-import React from "react";
+import React, {useState} from "react";
+import './RoomsList.css';
 
 
 const Room = ({setUser, room, plugin, setRoomJoinedJanus, setUsers, joinRoom, userInfo}) => {
 
-    console.log(room)
+    const [pin, setPin] = useState('');
+    const [showError, setShowError] = useState(false);
+    const errorMessage = 'Invalid pin, try again.'
+
     const onJoin = () => {
-        joinRoom(room, plugin, userInfo.nickname);
+        if(room.pin){
+            if(room.pin === pin){
+                console.log('here')
+                joinRoom(room, plugin, pin);
+            } else {
+                setShowError(true);
+            }
+        }
+        else{
+            joinRoom(room, plugin, pin);
+        }
     };
 
-    return <div style={{padding: '5px 5px 5px 5px',
-        border: '1px solid black',
-        margin: '2px 2px 2px 2px'}}>
+    return <div className='room-item'>
         <div>ID {room.roomid}</div>
         <div>{room.description}</div>
-        {room.pin_required && <p>pin required</p>}
-        <button onClick={onJoin}>join</button>
+        <div className='join-pad'>
+            {room.pin && <input className='pin-field'
+                                value={pin}
+                                placeholder={'Pin required...'}
+                                onChange={(e) => {
+                                    setPin(e.target.value);
+                                }}/>}
+            <button onClick={onJoin}>join</button>
+            {showError && <p className='pin-error'>{errorMessage}</p>}
+        </div>
     </div>
 }
 

@@ -23,11 +23,12 @@ export const CustomRouter = () => {
     }
 
     const routes = {
-        HOST: 'localhost:3000',
+        HOST: 'localhost',
         createVideoRoom: '/create-video-room',
         joinVideoRoom: '/join-video-room',
         testRoom: '/test-room',
         profile: '/profile',
+        docs: '/docs',
         home: '/',
     };
 
@@ -53,8 +54,8 @@ export const CustomRouter = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
 
+    // check is already logged, check token
     useEffect(()=>{
-        console.log('here')
         if(JSON.stringify(userInfo) === JSON.stringify({})){
             const userEmail = Cookie.get('email');
             const userNickname = Cookie.get('nickname');
@@ -66,11 +67,8 @@ export const CustomRouter = () => {
             }
         }
         if(!userToken){
-
             const userTkn = Cookie.get('tkn');
             if(userTkn){
-                console.log('here token')
-                console.log(userTkn)
                 setUserToken(userTkn);
             }
         }
@@ -80,9 +78,10 @@ export const CustomRouter = () => {
         console.log('user log out');
         setUserInfo({});
         setUserToken('');
-        Cookie.remove('email')
-        Cookie.remove('nickname')
-        Cookie.remove('tkn')
+        Cookie.remove('email');
+        Cookie.remove('nickname');
+        Cookie.remove('tkn');
+        window.location.href = serverRoutes.home;
     };
 
     const onLogIn = (email, password)=> {
@@ -132,7 +131,8 @@ export const CustomRouter = () => {
                 </Route>
                 <Route path={routes.joinVideoRoom}>
                     <HomeHeader routes={routes} login={userInfo.nickname} authApi={AuthAPI}/>
-                    <JoinRoom sRoutes={serverRoutes}
+                    <JoinRoom routes={routes}
+                              sRoutes={serverRoutes}
                               userInfo={userInfo}
                               token={userToken}
                               authApi={AuthAPI}

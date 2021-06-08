@@ -14,14 +14,11 @@ const MessageBox = ({message}) => {
 
 const ChatContainer = ({socket, room, nickname}) => {
 
+    const [showChat, setShowChat] = useState(true);
+
     const [messageValue, setMessageValue] = useState('');
     const messageID = useRef(0);
     const [messages, setMessages] = useState([]);
-    // {
-    //     nickname: 'admin',
-    //         time: '12:34:56',
-    //     value: 'Всем привет, я админ!'
-    // }
 
     // socket init
     useEffect(()=>{
@@ -74,8 +71,8 @@ const ChatContainer = ({socket, room, nickname}) => {
     }
 
     return <div className='chat-container'>
-        <div>Chat:</div>
-        <div>
+        <p onClick={()=>{setShowChat(!showChat)}}>Chat: {showChat ? 'hide' : 'show'}</p>
+        {showChat && <div>
             <input className='chat-textarea'
                    value={messageValue}
                    placeholder={'Введите сообщение...'}
@@ -83,12 +80,13 @@ const ChatContainer = ({socket, room, nickname}) => {
                        setMessageValue(e.target.value);
                    }}/>
             <button className='chat-send'
-                    onClick={onSendMessage}>Send</button>
-        </div>
-        <div>
+                    onClick={onSendMessage}>Send
+            </button>
+        </div>}
+        {showChat && <div className='messages-container'>
             {messages.map(msg => <MessageBox key={messageID.current++}
                                              message={msg}/>)}
-        </div>
+        </div>}
     </div>
 }
 

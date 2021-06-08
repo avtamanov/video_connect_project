@@ -1,3 +1,62 @@
 .interactive-checkbox{
     display: flex;
 }
+
+.create-room-form{
+    padding: 20px 20px 20px 20px;
+}
+
+.create-form-header{
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 43px;
+}
+
+.create-form-input{
+    height: 40px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.create-form-subheader{
+    margin: 10px 0 0 0;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.create-form-error{
+    margin: 20px 0 0 0;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    color: red;
+}
+
+.create-room-button{
+    margin: 20px 0 0 0;
+    width: 150px;
+    height: 45px;
+    background-color: #FB4D3D;
+    color: #000000;
+    border-color: #FB4D3D;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 17px;
+    font-family: Rubik, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+}

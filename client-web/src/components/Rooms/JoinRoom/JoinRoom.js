@@ -12,7 +12,7 @@ import io from "socket.io-client";
 import axios from "axios";
 
 
-const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
+const JoinRoom = ({routes, sRoutes, userInfo, token, authApi}) => {
 
 
     
@@ -44,7 +44,7 @@ const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
                     "request" : "list"
                 }
             }).then(res => {
-                console.log(res.getPluginData().list)
+                console.log('janus rooms: ', res.getPluginData().list)
                 setJanusRooms(res.getPluginData().list)
             })
                 .catch(err => console.log(err))
@@ -53,6 +53,8 @@ const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
     // publish audio, video
     const publishMedia = () => {
         const plugin = videoPlugin.current;
+        console.log(plugin)
+        console.log(plugin.sendWithTransaction)
         if(!plugin){ console.log('plugin ',plugin); return; }
 
         plugin.getUserMedia({ video: true, audio: true })
@@ -81,8 +83,8 @@ const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
                     body: {
                         request: 'publish',
                         audio: true,
-                        video: true,
-                        data: true,
+                        video: false,
+                        //data: true,
                     },
                     jsep: jsep,
                 });
@@ -115,42 +117,66 @@ const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
 
     // TODO HERE
     // JOIN ROOM
-    const joinRoom = (room, plugin) => {
-        joinSocketRoom(room);
-        joinJanusRoom(room, plugin);
+    const joinRoom = (room, plugin, pin) => {
+        joinSocketRoom(room, pin);
+        joinJanusRoom(room, plugin, pin);
     }
 
-    const joinSocketRoom = (room) => {
+    const joinSocketRoom = (room, pin) => {
         setRoomJoinedSocket(socketRooms.find(r => r.roomid === room.roomid));
         chatSocket.emit('join room', {roomid: room.roomid, userInfo: userInfo});
     }
-    const joinJanusRoom = (room, plugin) => {
-        plugin.sendWithTransaction({
-            body: {
-                request: 'join',
-                ptype: 'publisher',
-                room : room.roomid,
-                display: userInfo.nickname
-            }
-        }).then(res => {
-            console.log(res.getPluginData())
-            setRoomJoinedJanus(room.room);
-            setUserID(res.getPluginData().id);
-        })
-            .catch(err => console.log(err))
+    const joinJanusRoom = (room, plugin, pin) => {
+        if(pin){
+            plugin.sendWithTransaction({
+                body: {
+                    request: 'join',
+                    ptype: 'publisher',
+                    room : room.roomid,
+                    display: userInfo.nickname
+                }
+            }).then(res => {
+                console.log(res.getPluginData())
+                setRoomJoinedJanus(room.room);
+                setUserID(res.getPluginData().id);
+            })
+                .catch(err => console.log(err))
+        }
+        else {
+            plugin.sendWithTransaction({
+                body: {
+                    request: 'join',
+                    ptype: 'publisher',
+                    room : room.roomid,
+                    display: userInfo.nickname
+                }
+            }).then(res => {
+                console.log(res.getPluginData())
+                setRoomJoinedJanus(room.room);
+                setUserID(res.getPluginData().id);
+            })
+                .catch(err => console.log(err))
+        }
     }
 
 
     // LEAVE ROOM
-    const leaveJanusRoom = () => {
-
+    const leaveRoom = (room, plugin) => {
+        leaveJanusRoom(room);
+        leaveSocketRoom();
     }
-
-
+    const leaveJanusRoom = () => {
+        videoPlugin.current.sendWithTransaction({
+            body: {
+                request: 'leave'
+            }
+        });
+        setRoomJoinedJanus(null);
+    }
     // leave socket room
-    const leaveSocketRoom = (roomID) => {
+    const leaveSocketRoom = (room) => {
         setRoomJoinedSocket(null);
-        chatSocket.emit('leave room', {roomid: roomID, userInfo: userInfo})
+        chatSocket.emit('leave room', {roomid: room.roomid, userInfo: userInfo})
     }
 
     // janus init
@@ -223,7 +249,7 @@ const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
                 }
             })
                 .then(res => {
-                    console.log(res.data)
+                    console.log('socket rooms: ', res.data)
                     setSocketRooms(res.data.rooms);
                 })
                 .catch(err => console.log(err))
@@ -250,7 +276,8 @@ const JoinRoom = ({sRoutes, userInfo, token, authApi, serverRoutes}) => {
                                          socket={chatSocket}
                                          socketUsers={socketUsers}
                                          publishers={publishers}
-
+                                         routes={routes}
+                                         leaveRoom={leaveRoom}
         />
         }
     </div>

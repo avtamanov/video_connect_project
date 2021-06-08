@@ -5,6 +5,7 @@ import HomeFooter from "../../Home/HomeFooter/HomeFooter";
 import '../../../videoroomPlugin';
 import axios from "axios";
 import Janus from "janus-gateway-js";
+import {TextField} from "@material-ui/core";
 
 const CreateRoom = ({routes, userInfo, userToken, authApi, serverRoutes}) => {
 
@@ -59,19 +60,36 @@ const CreateRoom = ({routes, userInfo, userToken, authApi, serverRoutes}) => {
         const plugin = videoPlugin.current
 
         if(plugin){
-            plugin.sendWithTransaction({
-                body: {
-                    request: "create",
-                    room: roomInstance.roomid,
-                    permanent: false,
-                    description: roomInstance.description,
-                    secret: roomInstance.secret,
-                    pin: roomInstance.pin,
-                    is_private: roomInstance.isPrivateRoom,
-                    bitrate: 128000
-                }
-            }).then(res => console.log(res))
-                .catch(err => console.log(err))
+            console.log(roomInstance.pin)
+            if(roomInstance.pin){
+                plugin.sendWithTransaction({
+                    body: {
+                        request: "create",
+                        room: roomInstance.roomid,
+                        permanent: false,
+                        description: roomInstance.description,
+                        secret: roomInstance.secret,
+                        pin: roomInstance.pin,
+                        is_private: roomInstance.isPrivateRoom,
+                        bitrate: 128000
+                    }
+                }).then(res => console.log(res))
+                    .catch(err => console.log(err))
+            } else {
+                plugin.sendWithTransaction({
+                    body: {
+                        request: "create",
+                        room: roomInstance.roomid,
+                        permanent: false,
+                        description: roomInstance.description,
+                        secret: roomInstance.secret,
+                        is_private: roomInstance.isPrivateRoom,
+                        bitrate: 128000
+                    }
+                }).then(res => console.log(res))
+                    .catch(err => console.log(err))
+            }
+
         }
     }
 
@@ -95,7 +113,7 @@ const CreateRoom = ({routes, userInfo, userToken, authApi, serverRoutes}) => {
     return <div className='create-video-room'>
         <HomeHeader routes={routes} login={userInfo.email} authApi={authApi}/>
         {!userInfo.email && <div>For room creating you should login or register first.</div>}
-        {userInfo.email && <RoomCreationForm createRoom={createRoom}/>}
+        {userInfo.email && <RoomCreationForm createRoom={createRoom} routes={routes}/>}
         <HomeFooter/>
     </div>
 }
@@ -104,7 +122,7 @@ const CreateRoom = ({routes, userInfo, userToken, authApi, serverRoutes}) => {
 
 // -------------------------------------------- CREATE FORM -------------------------------------------
 
-const RoomCreationForm = ({createRoom}) => {
+const RoomCreationForm = ({createRoom, routes}) => {
 
     const getRandomInt = () => {
         return parseInt(''+(Math.random() * 1000000000));
@@ -123,10 +141,11 @@ const RoomCreationForm = ({createRoom}) => {
     const [checkDoc, setCheckDoc] = useState(false);
 
     const [showError, setShowError] = useState('disabled');
-    const ErrorMessage = 'ID, description, publishers - required fields'
+    const ErrorMessage = 'Description, publishers and at least one interactive component - required fields'
 
     const isButtonActive = () => {
-        if(ID && description && publishers) return '';
+        const anyInteractive = checkBoard || checkChat || checkDoc || checkVideo;
+        if(description && publishers && anyInteractive) return '';
         return 'disabled';
     }
     const getInteractive = () => {
@@ -138,7 +157,7 @@ const RoomCreationForm = ({createRoom}) => {
         return str;
     }
     const bindedCreateRoom = createRoom.bind(null, {
-        roomid: parseInt(ID),
+        roomid: isNaN(parseInt(ID)) ? getRandomInt() : parseInt(ID),
         description: description,
         publishers: parseInt(publishers),
         pin: pin,
@@ -148,6 +167,7 @@ const RoomCreationForm = ({createRoom}) => {
     });
     const onCreateRoom = () => {
         bindedCreateRoom();
+        window.location = 'http://' + routes.HOST + routes.joinVideoRoom;
         setID('');
         setDescription('');
         setPublishers('');
@@ -162,30 +182,36 @@ const RoomCreationForm = ({createRoom}) => {
 
     useEffect(()=>{
         setShowError(isButtonActive());
-    }, [ID, description, publishers]);
+    }, [ID, description, publishers, checkBoard, checkChat, checkDoc, checkVideo]);
 
-    return <div>
-        <p>Create room</p>
-        <div><input value={ID}
+    return <div className='create-room-form'>
+        <p className='create-form-header'>Create room</p>
+        <div><input className='create-form-input'
+                    value={ID}
                     onChange={e=> setID(e.target.value)}
                     placeholder='Room ID...'/></div>
-        <div><input value={description}
+        <div><input className='create-form-input'
+                    value={description}
                     onChange={e=> setDescription(e.target.value)}
                     placeholder='Room description...'/></div>
-        <div><input value={publishers}
+        <div><input className='create-form-input'
+                    value={publishers}
                     onChange={e=> setPublishers(e.target.value)}
                     placeholder='Number of publishers...'/></div>
         <div>
-            <p>Add password?</p>
-            <input type="checkbox"
-                   checked={showPin}
-                   onChange={e=>setShowPin(showPin ? '' : 'checked')}/>
+            <div className='create-form-subheader'>
+                <p>Add password?</p>
+                <input type="checkbox"
+                       checked={showPin}
+                       onChange={e=>setShowPin(showPin ? '' : 'checked')}/>
+            </div>
         </div>
-        {showPin && <div><input value={pin}
-                                onChange={e=> setPin(e.target.value)}
+        {showPin && <div><input className='create-form-input'
+                                value={pin}
+                                onChange={e => setPin(e.target.value)}
                                 placeholder='Enter password...'/></div>}
         <div>
-            <p>Add interactive</p>
+            <p className='create-form-subheader'>Add interactive</p>
             <div className='interactive-checkbox'>
                 <input type="checkbox"
                        checked={checkVideo}
@@ -212,14 +238,17 @@ const RoomCreationForm = ({createRoom}) => {
             </div>
         </div>
         <div>
-            <p>Is room private? (If room private, it will be not showing in Search rooms list)</p>
-            <input type="checkbox"
-                   checked={isPrivateRoom ? 'checked' : ''}
-                   onChange={e=>setPrivateRoom(!isPrivateRoom)}/>
+            <div className='create-form-subheader'>
+                <p>Is room private?</p>
+                <input type="checkbox"
+                       checked={isPrivateRoom ? 'checked' : ''}
+                       onChange={e=>setPrivateRoom(!isPrivateRoom)}/>
+            </div>
+            <p>(If room private, it will be not showing in Search rooms list)</p>
         </div>
-        {!showError && <button disabled={showError}
+        {!showError && <button className='create-room-button' disabled={showError}
                                onClick={onCreateRoom}>Create room</button>}
-        {showError && ErrorMessage}
+        {showError && <p className='create-form-error'>{ErrorMessage}</p>}
     </div>
 }
 

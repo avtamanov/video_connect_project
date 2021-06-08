@@ -69,8 +69,8 @@ const VideoComponent = ({userInfo, userId, stream, muted, streaming, publishMedi
         <div className='user-video-buttons'>
             {published && <div className='user-button' onClick={onPublish}>Unpublish Media</div>}
             {!published && <div className='user-button' onClick={onPublish}>Publish Media</div>}
-            {paused && <div className='user-button' onClick={onPause}>Play</div>}
-            {!paused && <div className='user-button' onClick={onPause}>Pause</div>}
+            {paused && <div className='user-button' onClick={onPause}>Unmute</div>}
+            {!paused && <div className='user-button' onClick={onPause}>Mute</div>}
         </div>
     </div>
 };
