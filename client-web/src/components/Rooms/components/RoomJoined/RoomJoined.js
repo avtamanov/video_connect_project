@@ -32,19 +32,22 @@ const RoomJoined = ({userInfo,
         }
     }, []);
 
+    useEffect(()=>{
+        //leaveRoomBind = leaveRoom.bind(null, room, plugin)
+    }, [room, plugin]);
+
     const [allowedBoard, setBoard] = useState(true);
     const [allowedChat, setChat] = useState(true);
     const [allowedDoc, setDoc] = useState(true);
     const [allowedVideo, setVideo] = useState(true);
 
-    const leaveRoomBind = leaveRoom.bind(null, room, plugin)
 
     return <div className='room-joined'>
         <div className='left-panel'>
             <div className='room-header'>
                 <p>You joined to Room with ID:{room.roomid}</p>
                 <p>Your video-server ID: {userID}</p>
-                <button onClick={leaveRoomBind}>Leave Room</button>
+                <button onClick={()=>{leaveRoom(room)}}>Leave Room</button>
             </div>
             {allowedVideo && <VideoComponent userId={userID}
                              userInfo={userInfo}

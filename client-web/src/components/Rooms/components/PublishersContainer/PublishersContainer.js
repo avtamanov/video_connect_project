@@ -147,8 +147,8 @@ const PublisherVideo = ({publisher, session, roomID}) => {
         <div className='nickname-user'>{publisher.display || publisher.id}</div>
         <video className={'video-user ' + publisher.id} ref={ref}/>
         <div className={'video-user-buttons ' + publisher.id}>
-            {isPublished && <div className='user-button' onClick={deleteMedia}>Unpublish Media</div>}
-            {!isPublished && <div className='user-button' onClick={getMedia}>Publish Media</div>}
+            {isPublished && <div className='user-button' onClick={deleteMedia}>Clear Media</div>}
+            {!isPublished && <div className='user-button' onClick={getMedia}>Get Media</div>}
             {isMuted && <div className='user-button' onClick={onMute}>Unmute</div>}
             {!isMuted && <div className='user-button' onClick={onMute}>Mute</div>}
         </div>

@@ -144,6 +144,7 @@ io.sockets.on('connection', (socket)=>{
         UserTable.find({email: userInfo.email}, (err, dbUsers) => {
             dbUsers[0].currentRoomID = roomid;
             dbUsers[0].currentSocketID = socket.id;
+            const userNick = dbUsers[0].nickname;
             dbUsers[0].save(err => {
                 if(err)throw err;
 
@@ -152,7 +153,7 @@ io.sockets.on('connection', (socket)=>{
                     message: {
                         nickname: 'Chat Bot',
                         time: '',
-                        value: `User ${userInfo.nickname} joined chat`
+                        value: `User ${userNick} joined chat`
                     }
                 });
 

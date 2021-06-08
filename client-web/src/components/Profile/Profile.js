@@ -2,7 +2,7 @@ import './Profile.css';
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 
-const Profile = ({sRoutes, token, userInfo}) => {
+const Profile = ({sRoutes, token, userInfo, setUserInfo}) => {
 
     const [userData, setUserData] = useState(null);
     const [showChangeNick, setShowChangeNick] = useState(false);

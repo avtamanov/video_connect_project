@@ -2,7 +2,7 @@ version: '2.1'
 services:
   #
   # janus-gateway
-  #
+
   janus-gateway:
     image: 'canyan/janus-gateway:0.10.7'
     command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]

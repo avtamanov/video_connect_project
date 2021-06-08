@@ -156,7 +156,8 @@ export const CustomRouter = () => {
                                 authApi={AuthAPI}/>
                     <Profile sRoutes={serverRoutes}
                              userInfo={userInfo}
-                             token={userToken}/>
+                             token={userToken}
+                             setUserInfo={setUserInfo}/>
                     <HomeFooter/>
                 </Route>
                 <Route exact path={routes.home}>

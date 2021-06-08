@@ -115,7 +115,6 @@ const JoinRoom = ({routes, sRoutes, userInfo, token, authApi}) => {
     const curUsers = [];
 
 
-    // TODO HERE
     // JOIN ROOM
     const joinRoom = (room, plugin, pin) => {
         joinSocketRoom(room, pin);
@@ -161,9 +160,9 @@ const JoinRoom = ({routes, sRoutes, userInfo, token, authApi}) => {
 
 
     // LEAVE ROOM
-    const leaveRoom = (room, plugin) => {
-        leaveJanusRoom(room);
-        leaveSocketRoom();
+    const leaveRoom = (room) => {
+        leaveJanusRoom();
+        leaveSocketRoom(room);
     }
     const leaveJanusRoom = () => {
         videoPlugin.current.sendWithTransaction({
